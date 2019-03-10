@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		43A5C5B322325E6E00B2D108 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43A5C5B222325E6E00B2D108 /* main.cpp */; };
-		43CFC9BC22325EA3003D6395 /* Genome.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43CFC9B822325EA2003D6395 /* Genome.cpp */; };
-		43CFC9BD22325EA3003D6395 /* GenomeMatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43CFC9BB22325EA3003D6395 /* GenomeMatcher.cpp */; };
+		43E418412234BF6D0093EF34 /* Genome.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E4183E2234BF6D0093EF34 /* Genome.cpp */; };
+		43E418422234BF6D0093EF34 /* GenomeMatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E418402234BF6D0093EF34 /* GenomeMatcher.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,10 +27,10 @@
 /* Begin PBXFileReference section */
 		43A5C5AF22325E6E00B2D108 /* Geenomics */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Geenomics; sourceTree = BUILT_PRODUCTS_DIR; };
 		43A5C5B222325E6E00B2D108 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		43CFC9B822325EA2003D6395 /* Genome.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Genome.cpp; sourceTree = "<group>"; };
-		43CFC9B922325EA3003D6395 /* Trie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trie.h; sourceTree = "<group>"; };
-		43CFC9BA22325EA3003D6395 /* provided.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = provided.h; sourceTree = "<group>"; };
-		43CFC9BB22325EA3003D6395 /* GenomeMatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GenomeMatcher.cpp; sourceTree = "<group>"; };
+		43E4183D2234BF6D0093EF34 /* Trie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trie.h; sourceTree = "<group>"; };
+		43E4183E2234BF6D0093EF34 /* Genome.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Genome.cpp; sourceTree = "<group>"; };
+		43E4183F2234BF6D0093EF34 /* provided.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = provided.h; sourceTree = "<group>"; };
+		43E418402234BF6D0093EF34 /* GenomeMatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GenomeMatcher.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,10 +64,10 @@
 			isa = PBXGroup;
 			children = (
 				43A5C5B222325E6E00B2D108 /* main.cpp */,
-				43CFC9BA22325EA3003D6395 /* provided.h */,
-				43CFC9B922325EA3003D6395 /* Trie.h */,
-				43CFC9B822325EA2003D6395 /* Genome.cpp */,
-				43CFC9BB22325EA3003D6395 /* GenomeMatcher.cpp */,
+				43E4183F2234BF6D0093EF34 /* provided.h */,
+				43E4183D2234BF6D0093EF34 /* Trie.h */,
+				43E4183E2234BF6D0093EF34 /* Genome.cpp */,
+				43E418402234BF6D0093EF34 /* GenomeMatcher.cpp */,
 			);
 			path = Geenomics;
 			sourceTree = "<group>";
@@ -128,8 +128,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				43CFC9BC22325EA3003D6395 /* Genome.cpp in Sources */,
-				43CFC9BD22325EA3003D6395 /* GenomeMatcher.cpp in Sources */,
+				43E418412234BF6D0093EF34 /* Genome.cpp in Sources */,
+				43E418422234BF6D0093EF34 /* GenomeMatcher.cpp in Sources */,
 				43A5C5B322325E6E00B2D108 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
