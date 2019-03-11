@@ -28,7 +28,6 @@ private:
     };
     TrieNode* root;
     void resetHelper(TrieNode* n);
-    void insertHelper(const std::string& key, const ValueType& value, TrieNode* n);
 };
 
 template<typename ValueType>
@@ -60,13 +59,30 @@ void Trie<ValueType>::resetHelper(TrieNode* n) {
 
 template<typename ValueType>
 void Trie<ValueType>::insert(const std::string& key, const ValueType& value) {
-    insertHelper(key, value, root);
-}
-
-template<typename ValueType>
-void Trie<ValueType>::insertHelper(const std::string& key, const ValueType& value, TrieNode* n) {
-    if (n == nullptr) {
-        
+    if (key.size() <= 0)
+        return;
+    if (root == nullptr) {
+        root = new TrieNode(key[0]);
+    }
+    TrieNode* currentNode = root;
+    for (int i = 1; i < key.size(); i++) {
+        if (currentNode->children.size() == 0) {
+            TrieNode newNode = new TrieNode(key[i]);
+            currentNode->children.emplace_back(newNode);
+            currentNode = newNode;
+            // continue;
+        } else {
+            for (int n = 0; n < currentNode->children.size(); n++) {
+                if (key == currentNode->children[i].label) {
+                    currentNode = currentNode->children[i];
+                    // continue;
+                }
+            }
+        }
+        if (i == key.size() - 1) {
+            currentNode->values.emplace_back(value);
+            return;
+        }
     }
 }
 

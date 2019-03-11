@@ -14,31 +14,84 @@ public:
     string name() const;
     bool extract(int position, int length, string& fragment) const;
 private:
+    string m_name;
+    string m_sequence;
+    static bool isValidChar(char c);
+    static bool isValidSequence(string s);
 };
 
 GenomeImpl::GenomeImpl(const string& nm, const string& sequence)
 {
     // This compiles, but may not be correct
+    m_name = nm;
+    m_sequence = sequence;
 }
 
 bool GenomeImpl::load(istream& genomeSource, vector<Genome>& genomes) 
 {
-    return false;  // This compiles, but may not be correct
+    if (!genomeSource)
+        return false;
+    
+    // clear any objects in genomes vector
+    vector<Genome> emptyGenomesVector;
+    genomes = emptyGenomesVector;
+    
+    int genomesEncountered = 0;
+    string genomeName = "";
+    string genomeStr = "";
+    string line;
+    while (getline(genomeSource, line)) {
+        if (genomesEncountered == 0 && line[0] != '>')
+            return false; // if file starts with non-name line, return false
+        if (line[0] == '>') {
+            if (genomesEncountered > 0)
+                genomes.emplace_back(Genome(genomeName, genomeStr));
+            genomesEncountered++;
+            genomeName = "";
+            genomeStr = "";
+            
+            if (line.length() <= 1)
+                return false;
+            genomeName = line.substr(1, line.length()-1);
+        } else {
+            if (!isValidSequence(line))
+                return false;
+        }
+    }
+    genomes.emplace_back(Genome(genomeName, genomeStr));
+    return true;
 }
 
 int GenomeImpl::length() const
 {
-    return 0;  // This compiles, but may not be correct
+    return m_sequence.length();
 }
 
 string GenomeImpl::name() const
 {
-    return "";  // This compiles, but may not be correct
+    return m_name;
 }
 
 bool GenomeImpl::extract(int position, int length, string& fragment) const
 {
-    return false;  // This compiles, but may not be correct
+    if (position > this->length() || (position + length) > this->length())
+        return false;
+    fragment = m_sequence.substr(position, length);
+    return true;
+}
+
+bool GenomeImpl::isValidChar(char c) {
+    if (c == 'A' || c == 'C' || c == 'T' || c == 'G' || c == 'N')
+        return true;
+    return false;
+}
+
+bool GenomeImpl::isValidSequence(string s) {
+    for (int i = 0; i < s.length(); i++) {
+        if (!isValidChar(s[i]))
+            return false;
+    }
+    return true;
 }
 
 //******************** Genome functions ************************************
