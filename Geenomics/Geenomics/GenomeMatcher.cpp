@@ -46,6 +46,8 @@ GenomeMatcherImpl::GenomeMatcherImpl(int minSearchLength)
 GenomeMatcherImpl::~GenomeMatcherImpl() {
     vector<Genome*>::iterator it = m_genomes.begin();
     while (it != m_genomes.end()) {
+        Genome* g = *it;
+        delete g;
         it = m_genomes.erase(it);
     }
 }
