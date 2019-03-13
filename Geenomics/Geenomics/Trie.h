@@ -62,16 +62,16 @@ void Trie<ValueType>::insert(const std::string& key, const ValueType& value) {
     if (key.size() <= 0)
         return;
     TrieNode* currentNode = root;
-    for (int i = 1; i < key.size(); i++) {
+    for (int i = 0; i < key.size(); i++) {
         bool found = false;
         for (int n = 0; n < currentNode->children.size(); n++) {
-            if (key[i] == currentNode->children[i].label) {
+            if (key[i] == currentNode->children[i]->label) {
                 currentNode = currentNode->children[i];
                 found = true;
             }
         }
         if (!found) {
-            TrieNode newNode = new TrieNode(key[i]);
+            TrieNode* newNode = new TrieNode(key[i]);
             currentNode->children.emplace_back(newNode);
             currentNode = newNode;
         }
@@ -93,7 +93,7 @@ std::vector<ValueType> Trie<ValueType>::findHelper(const std::string& key, int i
     if (n == root) {
         bool firstCharMatches = false;
         for (int i = 0; i < root->children.size(); i++) {
-            if (key[0] == root->children[i].label) {
+            if (key[0] == root->children[i]->label) {
                 firstCharMatches = true;
                 return findHelper(key, index + 1, exactMatchOnly, root->children[i]);
             }
@@ -109,16 +109,16 @@ std::vector<ValueType> Trie<ValueType>::findHelper(const std::string& key, int i
     } else {
         for (int i = 0; i < n->children.size(); i++) {
             std::vector<ValueType> childrenMatches;
-            if (exactMatchOnly && key[index] == n->children[i].label) {
+            if (exactMatchOnly && key[index] == n->children[i]->label) {
                 childrenMatches = findHelper(key, index + 1, exactMatchOnly, n->children[i]);
                 matches.insert(matches.end(), childrenMatches.begin(), childrenMatches.end());
             }
             if (!exactMatchOnly) {
-                if (key[index] != n->children[i].label) {
+                if (key[index] != n->children[i]->label) {
                     childrenMatches = findHelper(key, index + 1, true, n->children[i]);
                     matches.insert(matches.end(), childrenMatches.begin(), childrenMatches.end());
                 }
-                if (key[index] == n->children[i].label) {
+                if (key[index] == n->children[i]->label) {
                     childrenMatches = findHelper(key, index + 1, exactMatchOnly, n->children[i]);
                     matches.insert(matches.end(), childrenMatches.begin(), childrenMatches.end());
                 }

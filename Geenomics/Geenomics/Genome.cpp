@@ -33,8 +33,7 @@ bool GenomeImpl::load(istream& genomeSource, vector<Genome>& genomes)
         return false;
     
     // clear any objects in genomes vector
-    vector<Genome> emptyGenomesVector;
-    genomes = emptyGenomesVector;
+    genomes.clear();
     
     int genomesEncountered = 0;
     string genomeName = "";
