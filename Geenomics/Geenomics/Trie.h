@@ -13,8 +13,8 @@ public:
     void reset();
     void insert(const std::string& key, const ValueType& value);
     std::vector<ValueType> find(const std::string& key, bool exactMatchOnly) const;
-
-      // C++11 syntax for preventing copying and assignment
+    
+    // C++11 syntax for preventing copying and assignment
     Trie(const Trie&) = delete;
     Trie& operator=(const Trie&) = delete;
 private:
@@ -64,9 +64,9 @@ void Trie<ValueType>::insert(const std::string& key, const ValueType& value) {
     TrieNode* currentNode = root;
     for (int i = 0; i < key.size(); i++) {
         bool found = false;
-        for (int n = 0; n < currentNode->children.size(); n++) {
-            if (key[i] == currentNode->children[i]->label) {
-                currentNode = currentNode->children[i];
+        for (int c = 0; c < currentNode->children.size(); c++) {
+            if (key[i] == currentNode->children[c]->label) {
+                currentNode = currentNode->children[c];
                 found = true;
             }
         }
@@ -93,35 +93,37 @@ std::vector<ValueType> Trie<ValueType>::findHelper(const std::string& key, int i
     if (n == root) {
         bool firstCharMatches = false;
         for (int i = 0; i < root->children.size(); i++) {
-            if (key[0] == root->children[i]->label) {
+            if (key[0] == root->children.at(i)->label) {
                 firstCharMatches = true;
-                return findHelper(key, index + 1, exactMatchOnly, root->children[i]);
+                return findHelper(key, index, exactMatchOnly, root->children.at(i));
             }
         }
         if (!firstCharMatches)
             return matches; // if first char doesn't match, then return empty vector
     }
     
-    if (index == key.size() - 1) {
+    if (index == (key.size() - 1)) {
         if (key[index] == n->label || !exactMatchOnly) {
             return n->values;
+        } else if (exactMatchOnly) {
+            return matches; // empty vector
         }
     } else {
-        for (int i = 0; i < n->children.size(); i++) {
-            std::vector<ValueType> childrenMatches;
-            if (exactMatchOnly && key[index] == n->children[i]->label) {
-                childrenMatches = findHelper(key, index + 1, exactMatchOnly, n->children[i]);
-                matches.insert(matches.end(), childrenMatches.begin(), childrenMatches.end());
+        bool continueThroughChildren = false;
+        if (exactMatchOnly && key[index] == n->label) {
+            continueThroughChildren = true;
+        } else if (!exactMatchOnly) {
+            if (key[index] == n->label) {
+                continueThroughChildren = true;
+            } else {
+                exactMatchOnly = true;
+                continueThroughChildren = true;
             }
-            if (!exactMatchOnly) {
-                if (key[index] != n->children[i]->label) {
-                    childrenMatches = findHelper(key, index + 1, true, n->children[i]);
-                    matches.insert(matches.end(), childrenMatches.begin(), childrenMatches.end());
-                }
-                if (key[index] == n->children[i]->label) {
-                    childrenMatches = findHelper(key, index + 1, exactMatchOnly, n->children[i]);
-                    matches.insert(matches.end(), childrenMatches.begin(), childrenMatches.end());
-                }
+        }
+        if (continueThroughChildren) {
+            for (int c = 0; c < n->children.size(); c++) {
+                std::vector<ValueType> childrenMatches = findHelper(key, index+1, exactMatchOnly, n->children.at(c));
+                matches.insert(matches.end(), childrenMatches.begin(), childrenMatches.end());
             }
         }
     }
