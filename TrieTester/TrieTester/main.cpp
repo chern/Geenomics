@@ -46,5 +46,19 @@ int main() {
     vector<int> result3 = t.find("sit", false);
     cout << "result3 size: " << result3.size() << endl;
     
+    vector<int> result4 = t.find("hat", false);
+    cout << "result4 size: " << result4.size() << endl;
+    for (int i = 0; i < result4.size(); i++) {
+        cout << result4[i] << " ";
+    }
+    cout << endl;
+    
+    vector<int> result5 = t.find("hat", true);
+    cout << "result5 size: " << result5.size() << endl;
+    for (int i = 0; i < result5.size(); i++) {
+        cout << result5[i] << " ";
+    }
+    cout << endl;
+    
     cout << "Reached the end of main()" << endl;
 }
