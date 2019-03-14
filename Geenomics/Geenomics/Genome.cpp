@@ -35,17 +35,17 @@ bool GenomeImpl::load(istream& genomeSource, vector<Genome>& genomes)
     // clear any objects in genomes vector
     genomes.clear();
     
-    int genomesEncountered = 0;
+    bool genomeEncountered = false;
     string genomeName = "";
     string genomeStr = "";
     string line;
     while (getline(genomeSource, line)) {
-        if (genomesEncountered == 0 && line[0] != '>')
+        if (!genomeEncountered && line[0] != '>')
             return false; // if file starts with non-name line, return false
         if (line[0] == '>') {
-            if (genomesEncountered > 0)
+            if (genomeEncountered)
                 genomes.emplace_back(Genome(genomeName, genomeStr));
-            genomesEncountered++;
+            genomeEncountered = true;
             genomeName = "";
             genomeStr = "";
             
@@ -55,6 +55,8 @@ bool GenomeImpl::load(istream& genomeSource, vector<Genome>& genomes)
         } else {
             if (!isValidSequence(line))
                 return false;
+            else
+                genomeStr += line;
         }
     }
     genomes.emplace_back(Genome(genomeName, genomeStr));
