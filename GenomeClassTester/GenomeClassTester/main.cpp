@@ -22,6 +22,9 @@ void someFunc() {
         cout << "Loaded " << vg.size() << " genomes successfully:" << endl;
         for (int k = 0; k != vg.size(); k++)
             cout << vg[k].name() << endl;
+        // string e = "";
+        // vg[0].extract(0, vg[0].length(), e);
+        // cout << e << endl;
     } else
         cout << "Error loading genome data" << endl;
 }
