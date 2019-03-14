@@ -80,7 +80,7 @@ bool GenomeImpl::extract(int position, int length, string& fragment) const
 }
 
 bool GenomeImpl::isValidChar(char c) {
-    if (c == 'A' || c == 'C' || c == 'T' || c == 'G' || c == 'N')
+    if (c == 'A' || c == 'C' || c == 'T' || c == 'G' || c == 'N' || c == 'a' || c == 'c' || c == 't' || c == 'g' || c == 'n')
         return true;
     return false;
 }

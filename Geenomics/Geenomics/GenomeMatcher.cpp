@@ -20,7 +20,7 @@ bool compareGenomeMatches(const GenomeMatch& gm1, const GenomeMatch& gm2) {
         return true;
     if (gm1.percentMatch < gm2.percentMatch)
         return false;
-    return gm1.genomeName > gm2.genomeName;
+    return gm1.genomeName < gm2.genomeName;
 }
 
 class GenomeMatcherImpl
@@ -48,6 +48,7 @@ GenomeMatcherImpl::~GenomeMatcherImpl() {
     while (it != m_genomes.end()) {
         Genome* g = *it;
         delete g;
+        g = nullptr;
         it = m_genomes.erase(it);
     }
 }
