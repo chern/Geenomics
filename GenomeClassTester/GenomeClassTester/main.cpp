@@ -7,7 +7,7 @@
 using namespace std;
 
 void someFunc() {
-    string filename = "/Users/wchern/Documents/CS32_Geenomics/Gee-nomics_skeleton/data/Ferroplasma_acidarmanus.txt";
+    string filename = "/Users/wchern/Documents/CS32_Geenomics/Gee-nomics_skeleton/data/Halorubrum_chaoviator.txt";
     
     ifstream strm(filename);
     if (!strm) {
