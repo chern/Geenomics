@@ -82,14 +82,15 @@ bool GenomeMatcherImpl::findGenomesWithThisDNA(const string& fragment, int minim
     bool foundAtLeastOneGenome = false;
     matches.clear();
     
-    vector<GenomeItem> v = m_trie.find(fragment.substr(0, minimumSearchLength()), exactMatchOnly);
-    for (int i = 0; i < v.size(); i++) {
-        Genome* g = v[i].genome;
+    vector<GenomeItem> potentialMatches = m_trie.find(fragment.substr(0, minimumSearchLength()), exactMatchOnly);
+    cout << "potentialMatches.size() = " << potentialMatches.size() << endl;
+    for (int i = 0; i < potentialMatches.size(); i++) {
+        Genome* g = potentialMatches[i].genome;
         int matchLength = minimumSearchLength();
         
         for (int f = minimumSearchLength(); f < fragment.size(); f++) {
             string nextGenomeLetter = "";
-            g->extract(v[i].position + f, 1, nextGenomeLetter);
+            g->extract(potentialMatches[i].position + f, 1, nextGenomeLetter);
             string nextFragmentLetter = fragment.substr(f, 1);
             if (exactMatchOnly) {
                 if (nextFragmentLetter == nextGenomeLetter) {
@@ -100,7 +101,7 @@ bool GenomeMatcherImpl::findGenomesWithThisDNA(const string& fragment, int minim
                 }
             } else { // if !exactMatchOnly
                 string genomeUpToThisPoint = "";
-                g->extract(v[i].position, f, genomeUpToThisPoint);
+                g->extract(potentialMatches[i].position, f, genomeUpToThisPoint);
                 if (genomeUpToThisPoint == fragment.substr(0, f)) {
                     // up to this index f, the fragment and the genome sequence match, so a different letter can be allowed
                     matchLength++;
@@ -122,7 +123,7 @@ bool GenomeMatcherImpl::findGenomesWithThisDNA(const string& fragment, int minim
         DNAMatch d;
         d.genomeName = g->name();
         d.length = matchLength;
-        d.position = v[i].position;
+        d.position = potentialMatches[i].position;
         matches.emplace_back(d);
     }
     
@@ -130,7 +131,7 @@ bool GenomeMatcherImpl::findGenomesWithThisDNA(const string& fragment, int minim
         
     }
     
-    return foundAtLeastOneGenome;  // This compiles, but may not be correct
+    return foundAtLeastOneGenome;
 }
 
 bool GenomeMatcherImpl::findRelatedGenomes(const Genome& query, int fragmentMatchLength, bool exactMatchOnly, double matchPercentThreshold, vector<GenomeMatch>& results) const
