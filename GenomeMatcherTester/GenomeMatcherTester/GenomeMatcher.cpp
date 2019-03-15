@@ -157,10 +157,6 @@ bool GenomeMatcherImpl::findGenomesWithThisDNA(const string& fragment, int minim
         }
     }
     
-    for (int m = 0; m < matches.size(); m++) {
-        
-    }
-    
     return foundAtLeastOneGenome;
 }
 
