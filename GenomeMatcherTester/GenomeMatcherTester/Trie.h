@@ -68,6 +68,7 @@ void Trie<ValueType>::insert(const std::string& key, const ValueType& value) {
             if (key[i] == currentNode->children[c]->label) {
                 currentNode = currentNode->children[c];
                 found = true;
+                break;
             }
         }
         if (!found) {

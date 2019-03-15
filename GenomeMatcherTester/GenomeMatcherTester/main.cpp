@@ -19,11 +19,13 @@ int main() {
     Genome g1("Genome 1", "CGGTGTACNACGACTGGGGATAGAATATCTTGACGTCGTACCGGTTGTAGTCGTTCGACCGAAGGGTTCCGCGCCAGTAC");
     Genome g2("Genome 2", "TAACAGAGCGGTNATATTGTTACGAATCACGTGCGAGACTTAGAGCCAGAATATGAAGTAGTGATTCAGCAACCAAGCGG");
     Genome g3("Genome 3", "TTTTGAGCCAGCGACGCGGCTTGCTTAACGAAGCGGAAGAGTAGGTTGGACACATTNGGCGGCACAGCGCTTTTGAGCCA");
+    Genome g4("oryx", "GCTCGGNACACATCCGCCGCGGACGGGACGGGATTCGGGCTGTCGATTGTCTCACAGATCGTCGACGTACATGACTGGGA");
     
     GenomeMatcher gm(4);
     gm.addGenome(g1);
     gm.addGenome(g2);
     gm.addGenome(g3);
+    gm.addGenome(g4);
     
     vector<DNAMatch> matches;
     bool result;
@@ -34,48 +36,48 @@ int main() {
         printDNAMatchVector(matches);
         cout << endl;
     }
-    
+
     cout << "GAATAC, 4, true" << endl;
     result = gm.findGenomesWithThisDNA("GAATAC", 4, true, matches);
     if (result) {
         printDNAMatchVector(matches);
         cout << endl;
     }
-    
+
     cout << "GAATAC, 6, true" << endl;
     result = gm.findGenomesWithThisDNA("GAATAC", 6, true, matches);
     if (!result) {
         cout << "!result\n" << endl;
     }
-    
+
     cout << "GAATAC, 6, false" << endl;
     result = gm.findGenomesWithThisDNA("GAATAC", 6, false, matches);
     if (result) {
         printDNAMatchVector(matches);
         cout << endl;
     }
-    
+
     cout << "GTATAT, 6, false" << endl;
     result = gm.findGenomesWithThisDNA("GTATAT", 6, false, matches);
     if (result) {
         printDNAMatchVector(matches);
         cout << endl;
     }
-    
+
     cout << "GAATACG, 6, false" << endl;
     result = gm.findGenomesWithThisDNA("GAATACG", 6, false, matches);
     if (result) {
         printDNAMatchVector(matches);
         cout << endl;
     }
-    
+
     cout << "GAAGGGTT, 5, false" << endl;
     result = gm.findGenomesWithThisDNA("GAAGGGTT", 5, false, matches);
     if (result) {
         printDNAMatchVector(matches);
         cout << endl;
     }
-    
+
     cout << "GAAGGGTT, 6, false" << endl;
     result = gm.findGenomesWithThisDNA("GAAGGGTT", 6, false, matches);
     if (result) {
@@ -83,6 +85,15 @@ int main() {
         cout << endl;
     }
     
+    cout << "ACGTGCGAGACTTAGAGCC, 12, true" << endl;
+    result = gm.findGenomesWithThisDNA("ACGTGCGAGACTTAGAGCC", 12, true, matches);
+    if (result) {
+        printDNAMatchVector(matches);
+        cout << endl;
+    } else {
+        cout << "!result\n" << endl;
+    }
+
     cout << "ACGTGCGAGACTTAGAGCC, 12, false" << endl;
     result = gm.findGenomesWithThisDNA("ACGTGCGAGACTTAGAGCC", 12, false, matches);
     if (result) {
@@ -91,9 +102,18 @@ int main() {
     } else {
         cout << "!result\n" << endl;
     }
-    
+
     cout << "ACGTGCGAGACTTAGAGCG, 12, false" << endl;
     result = gm.findGenomesWithThisDNA("ACGTGCGAGACTTAGAGCG", 12, false, matches);
+    if (result) {
+        printDNAMatchVector(matches);
+        cout << endl;
+    } else {
+        cout << "!result\n" << endl;
+    }
+    
+    cout << "CTGGGA, 6, true" << endl;
+    result = gm.findGenomesWithThisDNA("CTGGGA", 6, true, matches);
     if (result) {
         printDNAMatchVector(matches);
         cout << endl;
@@ -109,7 +129,7 @@ int main() {
     } else {
         cout << "!result\n" << endl;
     }
-    
+
     cout << "GAAG, 5, true" << endl;
     result = gm.findGenomesWithThisDNA("GAAG", 5, true, matches);
     if (result) {

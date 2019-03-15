@@ -80,9 +80,8 @@ void GenomeMatcherImpl::addGenome(const Genome& genome)
         gen.genome = allocatedGenome;
         gen.position = i;
         string g = "";
-        if (genome.extract(i, minimumSearchLength(), g)) {
+        if (genome.extract(i, minimumSearchLength(), g))
             m_trie.insert(g, gen);
-        }
     }
 }
 
