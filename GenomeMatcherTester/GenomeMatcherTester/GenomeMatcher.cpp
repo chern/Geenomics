@@ -23,6 +23,22 @@ bool compareGenomeMatches(const GenomeMatch& gm1, const GenomeMatch& gm2) {
     return gm1.genomeName < gm2.genomeName;
 }
 
+inline
+bool compareGenomeItemsByName(const GenomeItem& gi1, const GenomeItem& gi2) {
+    // return true if gi1 should come first
+    return gi1.genome->name() < gi2.genome->name();
+}
+
+inline
+bool compareDNAMatches(const DNAMatch& dm1, const DNAMatch& dm2) {
+    // returns true if dm1 should come first
+    if (dm1.length > dm2.length)
+        return true;
+    if (dm1.length < dm2.length)
+        return false;
+    return dm1.position < dm2.position;
+}
+
 class GenomeMatcherImpl
 {
 public:
@@ -83,6 +99,7 @@ bool GenomeMatcherImpl::findGenomesWithThisDNA(const string& fragment, int minim
     matches.clear();
     
     vector<GenomeItem> potentialMatches = m_trie.find(fragment.substr(0, minimumSearchLength()), exactMatchOnly);
+    sort(potentialMatches.begin(), potentialMatches.end(), compareGenomeItemsByName);
     cout << "potentialMatches.size() = " << potentialMatches.size() << endl;
     for (int i = 0; i < potentialMatches.size(); i++) {
         Genome* g = potentialMatches[i].genome;
@@ -120,11 +137,23 @@ bool GenomeMatcherImpl::findGenomesWithThisDNA(const string& fragment, int minim
         
         if (matchLength >= minimumLength) {
             foundAtLeastOneGenome = true;
-            DNAMatch d;
-            d.genomeName = g->name();
-            d.length = matchLength;
-            d.position = potentialMatches[i].position;
-            matches.emplace_back(d);
+            DNAMatch newMatch;
+            newMatch.genomeName = g->name();
+            newMatch.length = matchLength;
+            newMatch.position = potentialMatches[i].position;
+            if (matches.size() > 0) {
+                // because the potential matches were sorted alphabetically by name, if there was a previous DNAMatch of the same genome inserted, it would show up right before this current one
+                // thus, compare it to find the one of a higher length
+                if (matches.at(matches.size() - 1).genomeName == newMatch.genomeName) {
+                    if (compareDNAMatches(newMatch, matches.at(matches.size() - 1))) {
+                        matches.at(matches.size() - 1) = newMatch;
+                    }
+                } else {
+                    matches.emplace_back(newMatch);
+                }
+            } else {
+                matches.emplace_back(newMatch);
+            }
         }
     }
     
