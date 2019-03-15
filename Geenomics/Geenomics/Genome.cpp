@@ -27,7 +27,7 @@ GenomeImpl::GenomeImpl(const string& nm, const string& sequence)
     m_sequence = sequence;
 }
 
-bool GenomeImpl::load(istream& genomeSource, vector<Genome>& genomes) 
+bool GenomeImpl::load(istream& genomeSource, vector<Genome>& genomes)
 {
     if (!genomeSource)
         return false;
@@ -123,7 +123,7 @@ Genome& Genome::operator=(const Genome& rhs)
     return *this;
 }
 
-bool Genome::load(istream& genomeSource, vector<Genome>& genomes) 
+bool Genome::load(istream& genomeSource, vector<Genome>& genomes)
 {
     return GenomeImpl::load(genomeSource, genomes);
 }
