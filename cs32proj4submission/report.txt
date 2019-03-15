@@ -1,0 +1,62 @@
+William Chern
+CS 32 Project 4 Report
+
+1. There are no known issues or bugs.
+
+2. The findRelatedGenomes() function does not exactly adhere to the O(Q * X) time specified in the spec, I think. After going through the query sequence and calling findGenomesWithThisDNA(), this function will go through a map that has stored the names of the genomes with matches, mapped to the number of matches those genomes have. Thus, if M is the number of genomes with 1 or more matches, the time of this function is really O((Q*X) + M).
+
+3.
+Trie::find()
+	calls the findHelper function, which is recursive
+
+Trie::findHelper()
+	create an empty vector to store matches
+	if n is the root node
+		loop through each of the root's children
+			if the first char of key matches with a child's label, call findHelper() to that child node
+		if the first char of the key didn't match with any children, then return the empty vector
+		// this is because the first char may never be a mismatch
+	if at the last index of key
+		if the last char of index equals the label of the current node OR if !exactMatchOnly
+			return this node's values
+		else if exactMatchOnly // this is because if exactMatchOnly but last char doesn't match, then return empty
+			return empty vector
+	else
+		if exactMatchOnly and the current char == current label
+			loop through children nodes
+		else if !exactMatchOnly
+			if current char == current label, then loop through children nodes
+			else
+				allow this mismatch, but set exactMatchOnly to true thereafter
+				loop through children nodes
+		when looping through children nodes, append returned vector to matches vector in order to get all the values
+return matches
+
+GenomeMatcher::findGenomesWithThisDNA()
+if fragment length < minimum length OR if minimum length < minimum search length
+	return false
+
+create new vector potentialMatches and set equal to Trie.find()
+sort potentialMatches vector by name (to group all matches of the same genome together in the vector)
+for each potential match:
+	loop through each letter of fragment, starting with the char at index minimumSearchLength()
+		if exactMatchOnly
+			ifnext fragment letter == next genome letter
+				increment matchLength
+				continue to the next letter
+			else, break out of the loop (already not a match, since no mismatches allowed)
+		else
+			get the genome subsequence up to this point (from start of match to current index)
+			if that genome subsequence is equal to the fragment up to this point
+				increment matchLength
+				continue to the next letter
+			else // a mismatch!
+				check if the next fragment letter and next genome letter are equal
+					// since only 1 mismatch allowed, the next chars must be equal again
+					increment matchLength if true, otherwise break
+	
+	if matchLength >= minimumLength
+		create a new DNAMatch appropriately constructed
+		if there's already a DNAMatch of the same genome, it would be the previous one directly in matches vector (because alphabetically sorted earlier)
+			compare them, keep the length that's longer; if same length, then sort by earliest position
+		put that DNAMatch into the matches vector
