@@ -172,7 +172,7 @@ bool GenomeMatcherImpl::findRelatedGenomes(const Genome& query, int fragmentMatc
         vector<DNAMatch> matches;
         findGenomesWithThisDNA(queryExtraction, fragmentMatchLength, exactMatchOnly, matches);
         for (int i = 0; i < matches.size(); i++) {
-            map<string, int >::iterator it = genomesNumMatches.find(matches[i].genomeName);
+            map<string, int>::iterator it = genomesNumMatches.find(matches[i].genomeName);
             if (it != genomesNumMatches.end()) {
                 it->second++;
             } else {
@@ -184,7 +184,7 @@ bool GenomeMatcherImpl::findRelatedGenomes(const Genome& query, int fragmentMatc
     results.clear();
     map<string, int>::iterator genomesNumMatchesIt = genomesNumMatches.begin();
     while (genomesNumMatchesIt != genomesNumMatches.end()) {
-        double p = static_cast<double>(genomesNumMatchesIt->second / numSequences);
+        double p = 100 * (genomesNumMatchesIt->second / static_cast<double>(numSequences));
         if (p >= matchPercentThreshold) {
             foundAtLeastOneGenome = true;
             GenomeMatch gm;
